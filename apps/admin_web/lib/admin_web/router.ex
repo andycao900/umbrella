@@ -17,6 +17,20 @@ defmodule AdminWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/sleep", PageController, :sleep
+  end
+
+  scope "/vmd", AdminWeb do
+    pipe_through :browser
+
+    resources "/vehicle_definitions", VehicleDefinitionController
+    resources "/vehicles", VehicleController
+  end
+
+  scope "/inventory_tracker", AdminWeb do
+    pipe_through :browser
+
+    resources "/inventories", InventoryController
   end
 
   # Other scopes may use custom stacks.
