@@ -1,0 +1,30 @@
+<h1>Listing Vehicle definitions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Make</th>
+      <th>Model</th>
+      <th>Year</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for vehicle_definition <- @vehicle_definitions do %>
+    <tr>
+      <td><%= vehicle_definition.make %></td>
+      <td><%= vehicle_definition.model %></td>
+      <td><%= vehicle_definition.year %></td>
+
+      <td>
+        <%= link "Show", to: Routes.vehicle_definition_path(@conn, :show, vehicle_definition) %>
+        <%= link "Edit", to: Routes.vehicle_definition_path(@conn, :edit, vehicle_definition) %>
+        <%= link "Delete", to: Routes.vehicle_definition_path(@conn, :delete, vehicle_definition), method: :delete, data: [confirm: "Are you sure?"] %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Vehicle definition", to: Routes.vehicle_definition_path(@conn, :new) %></span>

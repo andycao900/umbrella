@@ -1,0 +1,26 @@
+<h1>Listing Vehicles</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Vin</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for vehicle <- @vehicles do %>
+    <tr>
+      <td><%= vehicle.vin %></td>
+
+      <td>
+        <%= link "Show", to: Routes.vehicle_path(@conn, :show, vehicle) %>
+        <%= link "Edit", to: Routes.vehicle_path(@conn, :edit, vehicle) %>
+        <%= link "Delete", to: Routes.vehicle_path(@conn, :delete, vehicle), method: :delete, data: [confirm: "Are you sure?"] %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Vehicle", to: Routes.vehicle_path(@conn, :new) %></span>

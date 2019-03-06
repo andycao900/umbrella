@@ -1,0 +1,23 @@
+<h1>Show Vehicle definition</h1>
+
+<ul>
+
+  <li>
+    <strong>Make:</strong>
+    <%= @vehicle_definition.make %>
+  </li>
+
+  <li>
+    <strong>Model:</strong>
+    <%= @vehicle_definition.model %>
+  </li>
+
+  <li>
+    <strong>Year:</strong>
+    <%= @vehicle_definition.year %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.vehicle_definition_path(@conn, :edit, @vehicle_definition) %></span>
+<span><%= link "Back", to: Routes.vehicle_definition_path(@conn, :index) %></span>

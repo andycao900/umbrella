@@ -1,0 +1,13 @@
+<h1>Show Inventory</h1>
+
+<ul>
+
+  <li>
+    <strong>Dealer:</strong>
+    <%= @inventory.dealer_id %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.inventory_path(@conn, :edit, @inventory) %></span>
+<span><%= link "Back", to: Routes.inventory_path(@conn, :index) %></span>

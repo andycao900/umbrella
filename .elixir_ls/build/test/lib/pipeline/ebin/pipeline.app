@@ -1,0 +1,10 @@
+{application,pipeline,
+             [{applications,[kernel,stdlib,elixir,logger,nimble_csv]},
+              {description,"pipeline"},
+              {modules,['Elixir.NimblePipeParser','Elixir.Pipeline',
+                        'Elixir.Pipeline.Application',
+                        'Elixir.Pipeline.Ingestion.CPO.VW',
+                        'Elixir.Pipeline.Ingestion.Delimited']},
+              {registered,[]},
+              {vsn,"0.1.0"},
+              {mod,{'Elixir.Pipeline.Application',[]}}]}.

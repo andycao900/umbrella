@@ -1,0 +1,26 @@
+<h1>Listing Inventories</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Dealer</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for inventory <- @inventories do %>
+    <tr>
+      <td><%= inventory.dealer_id %></td>
+
+      <td>
+        <%= link "Show", to: Routes.inventory_path(@conn, :show, inventory) %>
+        <%= link "Edit", to: Routes.inventory_path(@conn, :edit, inventory) %>
+        <%= link "Delete", to: Routes.inventory_path(@conn, :delete, inventory), method: :delete, data: [confirm: "Are you sure?"] %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Inventory", to: Routes.inventory_path(@conn, :new) %></span>
