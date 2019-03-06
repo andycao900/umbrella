@@ -1,7 +1,9 @@
 defmodule Engine.InventoryTracker.Inventory do
+  @moduledoc """
+  Schema for Inventory
+  """
   use Ecto.Schema
   import Ecto.Changeset
-
 
   schema "inventories" do
     field :dealer_id, :string
@@ -22,10 +24,10 @@ defmodule Engine.InventoryTracker.Inventory do
     |> validate_required([:dealer_id])
   end
 
-    @doc false
-    def cpo_changeset(inventory, attrs) do
-      inventory
-      |> cast(attrs, [:dealer_id, :vehicle_id, :make, :model, :year, :vin, :external_dealer_id])
-      |> validate_required([:make, :model, :year, :vin, :external_dealer_id])
-    end
+  @doc false
+  def cpo_changeset(inventory, attrs) do
+    inventory
+    |> cast(attrs, [:dealer_id, :vehicle_id, :make, :model, :year, :vin, :external_dealer_id])
+    |> validate_required([:make, :model, :year, :vin, :external_dealer_id])
+  end
 end

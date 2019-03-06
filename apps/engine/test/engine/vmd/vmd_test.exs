@@ -30,7 +30,9 @@ defmodule Engine.VMDTest do
     end
 
     test "create_vehicle_definition/1 with valid data creates a vehicle_definition" do
-      assert {:ok, %VehicleDefinition{} = vehicle_definition} = VMD.create_vehicle_definition(@valid_attrs)
+      assert {:ok, %VehicleDefinition{} = vehicle_definition} =
+               VMD.create_vehicle_definition(@valid_attrs)
+
       assert vehicle_definition.make == "some make"
       assert vehicle_definition.model == "some model"
       assert vehicle_definition.year == 42
@@ -42,7 +44,10 @@ defmodule Engine.VMDTest do
 
     test "update_vehicle_definition/2 with valid data updates the vehicle_definition" do
       vehicle_definition = vehicle_definition_fixture()
-      assert {:ok, %VehicleDefinition{} = vehicle_definition} = VMD.update_vehicle_definition(vehicle_definition, @update_attrs)
+
+      assert {:ok, %VehicleDefinition{} = vehicle_definition} =
+               VMD.update_vehicle_definition(vehicle_definition, @update_attrs)
+
       assert vehicle_definition.make == "some updated make"
       assert vehicle_definition.model == "some updated model"
       assert vehicle_definition.year == 43
@@ -50,14 +55,20 @@ defmodule Engine.VMDTest do
 
     test "update_vehicle_definition/2 with invalid data returns error changeset" do
       vehicle_definition = vehicle_definition_fixture()
-      assert {:error, %Ecto.Changeset{}} = VMD.update_vehicle_definition(vehicle_definition, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               VMD.update_vehicle_definition(vehicle_definition, @invalid_attrs)
+
       assert vehicle_definition == VMD.get_vehicle_definition!(vehicle_definition.id)
     end
 
     test "delete_vehicle_definition/1 deletes the vehicle_definition" do
       vehicle_definition = vehicle_definition_fixture()
       assert {:ok, %VehicleDefinition{}} = VMD.delete_vehicle_definition(vehicle_definition)
-      assert_raise Ecto.NoResultsError, fn -> VMD.get_vehicle_definition!(vehicle_definition.id) end
+
+      assert_raise Ecto.NoResultsError, fn ->
+        VMD.get_vehicle_definition!(vehicle_definition.id)
+      end
     end
 
     test "change_vehicle_definition/1 returns a vehicle_definition changeset" do

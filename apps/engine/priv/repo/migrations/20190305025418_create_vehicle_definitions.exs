@@ -9,6 +9,5 @@ defmodule Engine.Repo.Migrations.CreateVehicleDefinitions do
 
       timestamps()
     end
-
   end
 end

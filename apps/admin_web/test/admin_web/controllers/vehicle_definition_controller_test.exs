@@ -28,7 +28,10 @@ defmodule AdminWeb.VehicleDefinitionControllerTest do
 
   describe "create vehicle_definition" do
     test "redirects to show when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.vehicle_definition_path(conn, :create), vehicle_definition: @create_attrs)
+      conn =
+        post(conn, Routes.vehicle_definition_path(conn, :create),
+          vehicle_definition: @create_attrs
+        )
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.vehicle_definition_path(conn, :show, id)
@@ -38,7 +41,11 @@ defmodule AdminWeb.VehicleDefinitionControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.vehicle_definition_path(conn, :create), vehicle_definition: @invalid_attrs)
+      conn =
+        post(conn, Routes.vehicle_definition_path(conn, :create),
+          vehicle_definition: @invalid_attrs
+        )
+
       assert html_response(conn, 200) =~ "New Vehicle definition"
     end
   end
@@ -46,7 +53,10 @@ defmodule AdminWeb.VehicleDefinitionControllerTest do
   describe "edit vehicle_definition" do
     setup [:create_vehicle_definition]
 
-    test "renders form for editing chosen vehicle_definition", %{conn: conn, vehicle_definition: vehicle_definition} do
+    test "renders form for editing chosen vehicle_definition", %{
+      conn: conn,
+      vehicle_definition: vehicle_definition
+    } do
       conn = get(conn, Routes.vehicle_definition_path(conn, :edit, vehicle_definition))
       assert html_response(conn, 200) =~ "Edit Vehicle definition"
     end
@@ -56,15 +66,27 @@ defmodule AdminWeb.VehicleDefinitionControllerTest do
     setup [:create_vehicle_definition]
 
     test "redirects when data is valid", %{conn: conn, vehicle_definition: vehicle_definition} do
-      conn = put(conn, Routes.vehicle_definition_path(conn, :update, vehicle_definition), vehicle_definition: @update_attrs)
-      assert redirected_to(conn) == Routes.vehicle_definition_path(conn, :show, vehicle_definition)
+      conn =
+        put(conn, Routes.vehicle_definition_path(conn, :update, vehicle_definition),
+          vehicle_definition: @update_attrs
+        )
+
+      assert redirected_to(conn) ==
+               Routes.vehicle_definition_path(conn, :show, vehicle_definition)
 
       conn = get(conn, Routes.vehicle_definition_path(conn, :show, vehicle_definition))
       assert html_response(conn, 200) =~ "some updated make"
     end
 
-    test "renders errors when data is invalid", %{conn: conn, vehicle_definition: vehicle_definition} do
-      conn = put(conn, Routes.vehicle_definition_path(conn, :update, vehicle_definition), vehicle_definition: @invalid_attrs)
+    test "renders errors when data is invalid", %{
+      conn: conn,
+      vehicle_definition: vehicle_definition
+    } do
+      conn =
+        put(conn, Routes.vehicle_definition_path(conn, :update, vehicle_definition),
+          vehicle_definition: @invalid_attrs
+        )
+
       assert html_response(conn, 200) =~ "Edit Vehicle definition"
     end
   end
@@ -72,9 +94,13 @@ defmodule AdminWeb.VehicleDefinitionControllerTest do
   describe "delete vehicle_definition" do
     setup [:create_vehicle_definition]
 
-    test "deletes chosen vehicle_definition", %{conn: conn, vehicle_definition: vehicle_definition} do
+    test "deletes chosen vehicle_definition", %{
+      conn: conn,
+      vehicle_definition: vehicle_definition
+    } do
       conn = delete(conn, Routes.vehicle_definition_path(conn, :delete, vehicle_definition))
       assert redirected_to(conn) == Routes.vehicle_definition_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.vehicle_definition_path(conn, :show, vehicle_definition))
       end

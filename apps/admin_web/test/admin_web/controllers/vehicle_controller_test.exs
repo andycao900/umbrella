@@ -75,6 +75,7 @@ defmodule AdminWeb.VehicleControllerTest do
     test "deletes chosen vehicle", %{conn: conn, vehicle: vehicle} do
       conn = delete(conn, Routes.vehicle_path(conn, :delete, vehicle))
       assert redirected_to(conn) == Routes.vehicle_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.vehicle_path(conn, :show, vehicle))
       end

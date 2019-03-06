@@ -40,13 +40,19 @@ defmodule Engine.InventoryTrackerTest do
 
     test "update_inventory/2 with valid data updates the inventory" do
       inventory = inventory_fixture()
-      assert {:ok, %Inventory{} = inventory} = InventoryTracker.update_inventory(inventory, @update_attrs)
+
+      assert {:ok, %Inventory{} = inventory} =
+               InventoryTracker.update_inventory(inventory, @update_attrs)
+
       assert inventory.dealer_id == "some updated dealer_id"
     end
 
     test "update_inventory/2 with invalid data returns error changeset" do
       inventory = inventory_fixture()
-      assert {:error, %Ecto.Changeset{}} = InventoryTracker.update_inventory(inventory, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               InventoryTracker.update_inventory(inventory, @invalid_attrs)
+
       assert inventory == InventoryTracker.get_inventory!(inventory.id)
     end
 

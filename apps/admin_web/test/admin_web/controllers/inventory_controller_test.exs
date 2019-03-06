@@ -75,6 +75,7 @@ defmodule AdminWeb.InventoryControllerTest do
     test "deletes chosen inventory", %{conn: conn, inventory: inventory} do
       conn = delete(conn, Routes.inventory_path(conn, :delete, inventory))
       assert redirected_to(conn) == Routes.inventory_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.inventory_path(conn, :show, inventory))
       end

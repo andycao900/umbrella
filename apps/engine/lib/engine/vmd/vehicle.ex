@@ -1,7 +1,9 @@
 defmodule Engine.VMD.Vehicle do
+  @moduledoc """
+  Schema for Vehicle
+  """
   use Ecto.Schema
   import Ecto.Changeset
-
 
   schema "vehicles" do
     field :vin, :string

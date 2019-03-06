@@ -25,6 +25,7 @@ erl_crash.dump
 cars_umbrella.plt
 cars_umbrella.plt.hash
 
+.DS_Store*
 
 .idea
 *.iml
