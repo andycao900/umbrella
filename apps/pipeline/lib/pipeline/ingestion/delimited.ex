@@ -1,17 +1,49 @@
 defmodule Pipeline.Ingestion.Delimited do
+  @moduledoc """
+  Generic Delimited file parser
+  """
   require Logger
+  alias Engine.InventoryTracker
 
-  NimbleCSV.define(NimblePipeParser, separator: "|", escape: "\0")
+  NimbleCSV.define(NimblePipeNullParser, separator: "|", escape: "\0")
+  NimbleCSV.define(NimblePipeDoubleQuoteParser, separator: "|", escape: "\"")
 
+  @spec inventory_from_file(String.t(), String.t(), String.t(), any(), [String.t()] | nil) ::
+          Enumerable.t()
   def inventory_from_file(path, separator, escape, mapper_fn, keys \\ nil) do
-    stream = parse_file(path, separator, escape)
+    path
+    |> File.stream!()
+    |> inventory_from_stream(separator, escape, mapper_fn, keys)
+  end
 
-    {keys, drop_count} = handle_keys(keys, stream)
+  @spec inventory_from_string(String.t(), String.t(), String.t(), any(), [String.t()] | nil) ::
+          Enumerable.t()
+  def inventory_from_string(string, separator, escape, mapper_fn, keys \\ nil) do
+    parser = parser(separator, escape)
 
-    stream
+    string
+    |> parser.parse_string(headers: false)
+    |> handle_parsed_stream(mapper_fn, keys)
+  end
+
+  @spec inventory_from_stream(Enumerable.t(), String.t(), String.t(), any(), [String.t()] | nil) ::
+          Enumerable.t()
+  def inventory_from_stream(in_stream, separator, escape, mapper_fn, keys \\ nil) do
+    parser = parser(separator, escape)
+
+    in_stream
+    |> parser.parse_stream(headers: false)
+    |> handle_parsed_stream(mapper_fn, keys)
+  end
+
+  defp handle_parsed_stream(parsed_stream, mapper_fn, keys) do
+    {keys, drop_count} = handle_keys(keys, parsed_stream)
+
+    parsed_stream
     |> Stream.drop(drop_count)
     |> Stream.map(&zip_keys(&1, keys))
     |> Stream.map(mapper_fn)
+    |> Stream.map(&InventoryTracker.build_cpo_inventory/1)
     |> Stream.filter(fn
       {:ok, _inventory} ->
         true
@@ -23,15 +55,8 @@ defmodule Pipeline.Ingestion.Delimited do
     |> Stream.map(fn {:ok, inventory} -> inventory end)
   end
 
-  defp parse_file(path, separator, escape) do
-    parser = parser(separator, escape)
-
-    path
-    |> File.stream!()
-    |> parser.parse_stream(headers: false)
-  end
-
-  def zip_keys(line, keys) do
+  @spec zip_keys(list(String.t()), list(String.t())) :: map()
+  defp zip_keys(line, keys) do
     keys
     |> Enum.zip(line)
     |> Enum.into(%{})
@@ -44,7 +69,14 @@ defmodule Pipeline.Ingestion.Delimited do
     end
   end
 
-  defp parser("|", "\0"), do: NimblePipeParser
+  defp parser("|", "\0"), do: NimblePipeNullParser
+  defp parser("|", "\""), do: NimblePipeDoubleQuoteParser
+
+  defp parser(separator, escape),
+    do:
+      raise(
+        "No parser defined in #{inspect(__MODULE__)} for #{inspect(separator)} #{inspect(escape)}"
+      )
 end
 
 #   |> Stream.filter(fn {x, y} ->
