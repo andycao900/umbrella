@@ -2,6 +2,7 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
+config :phoenix, :json_library, Jason
 # By default, the umbrella project as well as each child
 # application will require this configuration file, as
 # configuration and dependencies are shared in an umbrella
@@ -18,3 +19,4 @@ import_config "../apps/*/config/config.exs"
 #       level: :info,
 #       format: "$date $time [$level] $metadata$message\n",
 #       metadata: [:user_id]
+import_config "#{Mix.env()}.exs"
