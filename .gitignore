@@ -19,3 +19,12 @@ erl_crash.dump
 # Also ignore archive artifacts (built via "mix archive.build").
 *.ez
 
+.elixir_ls
+
+# dialyzer plt
+cars_umbrella.plt
+cars_umbrella.plt.hash
+
+
+.idea
+*.iml
