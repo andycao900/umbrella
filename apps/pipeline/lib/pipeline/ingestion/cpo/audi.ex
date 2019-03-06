@@ -12,7 +12,7 @@ defmodule Pipeline.Ingestion.CPO.Audi do
   alias Pipeline.Ingestion.Delimited
 
   @doc """
-  Hello this is some documentation
+  Hello this is some documentation for me
   """
   def inventory_from_file(path) do
     Delimited.inventory_from_file(path, "|", "\"", &to_inventory/1)
