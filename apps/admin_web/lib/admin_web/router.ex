@@ -1,12 +1,23 @@
 defmodule AdminWeb.Router do
   use AdminWeb, :router
 
-  pipeline :browser do
+  require Ueberauth
+
+  alias Authentication.Plug.{BasicAuthCars, FetchUserFromSession, RequireAuthentication}
+
+  pipeline :unauthenticated_browser do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug BasicAuthCars, config_root: :admin_web
+    plug FetchUserFromSession, user_resolver: &Engine.Accounts.get_user/1
+  end
+
+  pipeline :browser do
+    plug :unauthenticated_browser
+    plug RequireAuthentication, routes_helper: AdminWeb.Router.Helpers
   end
 
   pipeline :api do
@@ -14,10 +25,17 @@ defmodule AdminWeb.Router do
   end
 
   scope "/", AdminWeb do
-    pipe_through :browser
+    pipe_through :unauthenticated_browser
 
     get "/", PageController, :index
-    get "/sleep", PageController, :sleep
+  end
+
+  scope "/login", AdminWeb do
+    pipe_through :unauthenticated_browser
+
+    get "/", AuthController, :request
+    get "/callback", AuthController, :callback
+    post "/callback", AuthController, :callback
   end
 
   scope "/vmd", AdminWeb do

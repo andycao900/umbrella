@@ -41,11 +41,24 @@ defmodule AdminWeb.MixProject do
       {:phoenix_pubsub, "~> 1.1"},
       {:phoenix_ecto, "~> 4.0"},
       {:phoenix_html, "~> 2.11"},
+      # connects to new relic for apm
+      {:new_relic_agent, "~> 1.0"},
+      # add phoenix specific instrumentation on top of the new_relic_agent
+      {:new_relic_phoenix, "~> 0.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:gettext, "~> 0.11"},
+      # HTTPoison provides functions for making HTTP requests
+      {:httpoison, "~> 1.5"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:engine, in_umbrella: true}
+      {:authentication, in_umbrella: true},
+
+      # Plug to easily add HTTP basic authentication to an app
+      {:basic_auth, "~> 2.2.2"},
+      {:engine, in_umbrella: true},
+      {:ueberauth, "~> 0.6.1"},
+      # provides Auth0 OAuth2 strategy for Überauth
+      {:ueberauth_auth0, git: "https://github.com/sabondano/ueberauth_auth0.git"}
     ]
   end
 

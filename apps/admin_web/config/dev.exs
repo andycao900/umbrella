@@ -11,7 +11,7 @@ use Mix.Config
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :admin_web, AdminWeb.Endpoint,
-  http: [port: 4000],
+  http: [port: 4020],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
@@ -59,3 +59,9 @@ config :admin_web, AdminWeb.Endpoint,
       ~r{lib/admin_web/templates/.*(eex)$}
     ]
   ]
+
+config :logger, :console, level: :debug
+
+if File.exists?("#{Path.dirname(__ENV__.file())}/dev.secret.exs") do
+  import_config "dev.secret.exs"
+end
