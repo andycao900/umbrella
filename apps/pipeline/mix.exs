@@ -18,7 +18,7 @@ defmodule Pipeline.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger],
+      extra_applications: [:logger, :httpoison],
       mod: {Pipeline.Application, []}
     ]
   end
@@ -34,7 +34,8 @@ defmodule Pipeline.MixProject do
       {:ex_aws, "~> 2.1"},
       {:ex_aws_s3, "~> 2.0"},
       {:hackney, "~> 1.9"},
-      {:sweet_xml, "~> 0.6"}
+      {:sweet_xml, "~> 0.6"},
+      {:httpoison, "~> 1.5", override: true}
     ]
   end
 end
